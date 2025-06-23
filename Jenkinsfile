@@ -103,7 +103,7 @@ pipeline {
             steps {
                 script {
                     docker.withRegistry("", DOCKERHUB_CREDENTIAL) {
-                        sh "docker buildx build --platform linux/amd64,linux/arm64 -t $imageName:latest --push ."
+                        sh "docker buildx build --platform linux/amd64,linux/arm64 -t ${DOCKER_IMAGE_NAME}:latest --push ."
                     }
 
                     sh "docker rmi ${DOCKER_IMAGE_NAME}"
