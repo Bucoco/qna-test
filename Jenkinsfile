@@ -85,16 +85,16 @@ pipeline {
             }
         }
 
-        stage('Build Docker Image') {
-//             when {
-//                 expression { PROD_BUILD == true || TAG_BUILD == true }
+//         stage('Build Docker Image') {
+// //             when {
+// //                 expression { PROD_BUILD == true || TAG_BUILD == true }
+// //             }
+//             steps {
+//                 script {
+//                     sh "docker buildx create --use --name mybuilder"
+//                 }
 //             }
-            steps {
-                script {
-                    sh "docker buildx create --use --name mybuilder"
-                }
-            }
-        }
+//         }
 
         stage('Push Docker Image') {
 //             when {
