@@ -27,7 +27,7 @@ pipeline {
     }
 
     environment {
-        GIT_URL = "https://github.com/LCA-PJT2/qna-service.git"
+        GIT_URL = "https://github.com/Bucoco/qna-test.git"
         GITHUB_CREDENTIAL = "github-token"
         ARTIFACTS = "build/libs/**"
         DOCKER_REGISTRY = "bucoco"
