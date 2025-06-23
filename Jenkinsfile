@@ -91,7 +91,7 @@ pipeline {
 //             }
             steps {
                 script {
-                    docker.build "${DOCKER_IMAGE_NAME}"
+                    sh "docker buildx create --use --name mybuilder"
                 }
             }
         }
@@ -103,7 +103,7 @@ pipeline {
             steps {
                 script {
                     docker.withRegistry("", DOCKERHUB_CREDENTIAL) {
-                        docker.image("${DOCKER_IMAGE_NAME}").push()
+                        sh "docker buildx build --platform linux/amd64,linux/arm64 -t $imageName:latest --push ."
                     }
 
                     sh "docker rmi ${DOCKER_IMAGE_NAME}"
