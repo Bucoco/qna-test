@@ -2,7 +2,6 @@ package com.lg2.qna_service.repository;
 
 import com.lg2.qna_service.domain.CSAnswer;
 import com.lg2.qna_service.domain.CSQuestion;
-import com.lg2.qna_service.remote.UserDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

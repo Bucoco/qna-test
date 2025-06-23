@@ -21,7 +21,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;;import static com.lg2.qna_service.ai.dto.AIRequest.*;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import static com.lg2.qna_service.ai.dto.AIRequest.*;
 
 @Service
 public class AIQuestionService {

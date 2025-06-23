@@ -12,8 +12,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -25,12 +23,12 @@ public class CSQuestionController {
 
     @GetMapping
     public ResponseEntity<?> getCSQuestionList(@RequestParam(required = false) String category,
-                                               @RequestParam(defaultValue = "1") int page, @AuthenticationPrincipal UserDetails userDetails) {
+                                               @RequestParam(defaultValue = "1") int page) {
         Order order = Order.desc("id");
         Sort sort = Sort.by(order);
         Pageable pageable = PageRequest.of(page - 1, 10, sort);
 
-        Page<CSQuestionResponse> list = csQuestionService.getCSQuestionList(category, pageable, userDetails);
+        Page<CSQuestionResponse> list = csQuestionService.getCSQuestionList(category, pageable);
         return ResponseEntity.ok(CustomResponse.ok(list));
     }
 

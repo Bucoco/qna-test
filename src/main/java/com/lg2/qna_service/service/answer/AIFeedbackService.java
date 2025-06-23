@@ -3,16 +3,14 @@ package com.lg2.qna_service.service.answer;
 import com.lg2.qna_service.ai.dto.AIRequest;
 import com.lg2.qna_service.ai.dto.AIRequest.OpenAiRequest;
 import com.lg2.qna_service.ai.dto.AIResponse;
+import com.lg2.qna_service.common.web.context.GatewayRequestHeaderUtils;
 import com.lg2.qna_service.domain.CSAnswer;
 import com.lg2.qna_service.domain.dto.csAnswer.CSAnswerResponse;
-import com.lg2.qna_service.remote.RemoteUserService;
-import com.lg2.qna_service.remote.UserDto;
 import com.lg2.qna_service.repository.CSAnswerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -25,8 +23,6 @@ public class AIFeedbackService {
     @Autowired
     private CSAnswerRepository csAnswerRepository;
     @Autowired
-    private RemoteUserService userService;
-    @Autowired
     private RestTemplate restTemplate;
 
     // openAI API로 Feedback 받기
@@ -34,13 +30,13 @@ public class AIFeedbackService {
     String API_URL;
     @Value("${openai.api.key}")
     String API_KEY;
-    public CSAnswerResponse.AIFeedbackResponse createAIFeedback(Long answerId, UserDetails userDetails) {
-        UserDto userDto = getUserFromDetails(userDetails);
+    public CSAnswerResponse.AIFeedbackResponse createAIFeedback(Long answerId) {
+        Long userId = Long.valueOf(GatewayRequestHeaderUtils.getUserIdOrThrowException());
         
         CSAnswer answer = csAnswerRepository.findById(answerId) // 400
                 .orElseThrow(() -> new IllegalArgumentException("답변이 존재하지 않습니다."));
 
-        if (!answer.getUserId().equals(userDto.getId())) {  // 500
+        if (!answer.getUserId().equals(userId)) {  // 500
             // throw new AccessDeniedException("자신의 답변만 피드백 요청 가능합니다."); 고려 중
             throw new RuntimeException("자신의 답변만 피드백 요청 가능합니다.");
         }
@@ -87,9 +83,4 @@ public class AIFeedbackService {
                                     .csanswer_feedback(feedback)
                                     .build();
     }
-
-    private UserDto getUserFromDetails(UserDetails userDetails) {
-        return userService.getUser("Bearer " + userDetails.getUsername());
-    }
-
 }
