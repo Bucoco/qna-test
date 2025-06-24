@@ -9,7 +9,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @EnableDiscoveryClient
 @EnableFeignClients
 public class QnaServiceApplication {
-
+	//주석
 	public static void main(String[] args) {
 		SpringApplication.run(QnaServiceApplication.class, args);
 	}
